@@ -8,11 +8,12 @@ const SocketContext = createContext()
 // Connect socket to server domain
 const socket = io('http://localhost:5000')
 
-//
+// get children from props
+
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false)
   const [callEnded, setCallEnded] = useState(false)
-  const [stream, setStream] = useState()
+  const [stream, setStream] = useState(null)
   const [name, setName] = useState('')
   const [call, setCall] = useState({})
   const [me, setMe] = useState('')
@@ -20,18 +21,25 @@ const ContextProvider = ({ children }) => {
   const myVideo = useRef()
   const userVideo = useRef()
   const connectionRef = useRef()
-
+  // When component mounts 
   useEffect(() => {
+    // gets permission to use video/audio
+    // navigator is built in that returns a promise
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream)
-
+        // Sets ref to current stream
         myVideo.current.srcObject = currentStream
       })
 
+    // Listen for 'me' action from server gets id
+    // Then sets id
     socket.on('me', (id) => setMe(id))
 
+    // Listens for 'callUser' action gets user
+    // data from, caller name and signal
     socket.on('callUser', ({ from, name: callerName, signal }) => {
+      // set call object
       setCall({ isReceivingCall: true, from, name: callerName, signal })
     })
   }, [])
@@ -39,7 +47,7 @@ const ContextProvider = ({ children }) => {
   // ANSWER CALL FUNCTION
   const answerCall = () => {
     setCallAccepted(true)
-
+    // create peer object
     const peer = new Peer({ initiator: false, trickle: false, stream })
 
     peer.on('signal', (data) => {
@@ -57,6 +65,7 @@ const ContextProvider = ({ children }) => {
 
   // CALL FUNCTION
   const callUser = (id) => {
+    // create new peer object
     const peer = new Peer({ initiator: true, trickle: false, stream })
 
     peer.on('signal', (data) => {
