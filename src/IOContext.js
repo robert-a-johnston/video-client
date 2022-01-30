@@ -1,6 +1,9 @@
 import React, { createContext, useState, useRef, useEffect } from 'react'
 // initialize socket io client
 import { io } from 'socket.io-client'
+// Peer connections are distinct from connections to a server 
+// because they allow for direct exchange of information between peers, 
+// rather than going through a server.
 import Peer from 'simple-peer'
 
 const SocketContext = createContext()
@@ -50,10 +53,14 @@ const ContextProvider = ({ children }) => {
     // create peer object
     const peer = new Peer({ initiator: false, trickle: false, stream })
 
+    // peer to listen for signal and use socket to emit that data.
+    // When answering call
     peer.on('signal', (data) => {
+      // socket io emits to the server the information to be sent to other peer
       socket.emit('answerCall', { signal: data, to: call.from })
     })
 
+    // peer to listen for stream and connect with other peer
     peer.on('stream', (currentStream) => {
       userVideo.current.srcObject = currentStream
     })
@@ -62,7 +69,7 @@ const ContextProvider = ({ children }) => {
 
     connectionRef.current = peer
   }
-
+  
   // CALL FUNCTION
   const callUser = (id) => {
     // create new peer object
@@ -75,7 +82,8 @@ const ContextProvider = ({ children }) => {
     peer.on('stream', (currentStream) => {
       userVideo.current.srcObject = currentStream
     })
-
+    
+    // listens for call accepted
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true)
 
