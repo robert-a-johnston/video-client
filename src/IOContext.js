@@ -51,6 +51,7 @@ const ContextProvider = ({ children }) => {
   const answerCall = () => {
     setCallAccepted(true)
     // create peer object
+    // trickle: false indicates the only a single event can be emitted from the peer object
     const peer = new Peer({ initiator: false, trickle: false, stream })
 
     // peer to listen for signal and use socket to emit that data.
@@ -82,7 +83,7 @@ const ContextProvider = ({ children }) => {
     peer.on('stream', (currentStream) => {
       userVideo.current.srcObject = currentStream
     })
-    
+
     // listens for call accepted
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true)
