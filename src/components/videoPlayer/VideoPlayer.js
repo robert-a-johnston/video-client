@@ -25,20 +25,25 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function VideoPlayer() {
+  // destructure SocketContext variables from IOContext file
   const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext)
+  // classes generate style
   const classes = useStyles()
 
   return (
     <Grid container className={classes.gridContainer}>
       {stream && (
+        // User video
         <Paper className={classes.paper}>
           <Grid item xs={12} md={6}>
             <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
+            {/* mute own video */}
             <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
           </Grid>
         </Paper>
       )}
       {callAccepted && !callEnded && (
+        // Another user's video
         <Paper className={classes.paper}>
           <Grid item xs={12} md={6}>
             <Typography variant="h5" gutterBottom>{call.name || 'Name'}</Typography>
