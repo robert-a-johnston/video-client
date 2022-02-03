@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, AppBar } from '@material-ui/core'
+// import { Typography, AppBar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Header from './components/header/Header'
