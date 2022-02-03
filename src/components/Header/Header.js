@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { RiHomeSmile2Line } from 'react-icons/ri'
 import './Header.css'
 
@@ -30,20 +30,19 @@ const Header = ({ user }) => (
   <Navbar className='nav-bar' variant='dark' expand='md'>
     <Container>
       <Navbar.Brand>
-        <h2>Vid Chat</h2>
+        Vid Chat
       </Navbar.Brand>
-        {alwaysOptions}
-      {/* <Navbar.Toggle aria-controls='basic-navbar-nav' />
+      <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
         <Nav className='ml-auto'>
           {alwaysOptions}
           {user ? authenticatedOptions : unauthenticatedOptions}
         </Nav>
-      </Navbar.Collapse> */}
+      </Navbar.Collapse>
     </Container>
-    {/* <p>{user && (
+    <p>{user && (
       <span id='welcome' className='navbar-text mr-2'>Welcome, {user.email}</span>
-    )}</p> */}
+    )}</p>
   </Navbar>
 )
 

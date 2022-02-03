@@ -1,8 +1,8 @@
 import React from 'react'
-import { Typography, AppBar } from '@material-ui/core'
+// import { Typography, AppBar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Header from './components/header/Header'
+import Header from './components/Header/Header'
 import VideoPlayer from './components/videoPlayer/VideoPlayer'
 import Sidebar from './components/sidebar/Sidebar'
 import Notifications from './components/notifications/Notifications'
